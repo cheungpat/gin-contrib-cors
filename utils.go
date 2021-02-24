@@ -18,6 +18,11 @@ func generateNormalHeaders(c Config) http.Header {
 		exposeHeaders := convert(normalize(c.ExposeHeaders), http.CanonicalHeaderKey)
 		headers.Set("Access-Control-Expose-Headers", strings.Join(exposeHeaders, ","))
 	}
+	if len(c.AllowHeaders) > 0 {
+		allowHeaders := convert(normalize(c.AllowHeaders), http.CanonicalHeaderKey)
+		value := strings.Join(allowHeaders, ",")
+		headers.Set("Access-Control-Allow-Headers", value)
+	}
 	if c.AllowAllOrigins {
 		headers.Set("Access-Control-Allow-Origin", "*")
 	} else {

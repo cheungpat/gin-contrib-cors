@@ -147,6 +147,15 @@ func TestGenerateNormalHeaders_ExposedHeaders(t *testing.T) {
 	assert.Len(t, header, 2)
 }
 
+func TestGenerateNormalHeaders_AllowHeaders(t *testing.T) {
+	header := generateNormalHeaders(Config{
+		AllowHeaders: []string{"X-user", "Content-Type"},
+	})
+	assert.Equal(t, header.Get("Access-Control-Allow-Headers"), "X-User,Content-Type")
+	assert.Equal(t, header.Get("Vary"), "Origin")
+	assert.Len(t, header, 2)
+}
+
 func TestGeneratePreflightHeaders(t *testing.T) {
 	header := generatePreflightHeaders(Config{
 		AllowAllOrigins: false,
